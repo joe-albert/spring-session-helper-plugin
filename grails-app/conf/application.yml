@@ -1,0 +1,11 @@
+---
+grails:
+    profile: web-plugin
+    codegen:
+        defaultPackage: grails.plugin.spring.session.helper
+info:
+    app:
+        name: '@info.app.name@'
+        version: '@info.app.version@'
+        grailsVersion: '@info.app.grailsVersion@'
+
