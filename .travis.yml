@@ -5,7 +5,6 @@ sudo: false
 branches:
   only:
   - master
-  - grails2
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -20,6 +19,6 @@ after_success:
 - JAVA_HOME=$(jdk_switcher home openjdk8) ./gradlew assemble
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry ./gradlew clean publish'
 env:
-  matrix:
+  global:
   - secure: DNagnBBEf+x/lOfDh5B4kA+aSCbvmHZqbLkKXQ9HRDvj/DiIjnXk4xTDBqQeXw6PNp8vlJr/KNIW7q1e5avR43nAQt6VE/Ss7YiMf+wT9wZWlJP99Tg8aQKyxTmD6wkUgoco8y83ccTC6cHV5zizF1pDSNLnq0Mz4vTEKA0uNSMRDiyG4MpuX5rCPCE9zGtBCLWorYuBaUNZ93zBbe6Ae2PEx0vazB9iF/WnK7QnmqLYdRILu/fU2OEMk0PoevisHHl/vutUwQuTYIP3HLQjBKmRvGkGsU2pr0deB2eWTvyNQoyn4PJZsb3/tyEMi4CDJmnDmE+E93VQXO+f8jV6fdbj1jsPjNbsvo35ofAw6n+tO4kTtU1TtHrqeuzeg0XN0mBduhHgFUwGvSHUL2ta2Yt9dQiNCGU9Xu6HQ9sYDucLtNJSbCVK/OhQTvtoXkNSoo+g60a/qp+QzmNcZ/q9NvRVZuM2/pawR0V0XzUe62g00T8lUKDMWTu3PFxGh8QVDOTPaZ1Lc0AMVZUb4/gX+/iAipP63q2/klI33U1nMSEx8awXYuMQxNa+HgoC5ZRkC2iNf8tG04q50h1EfHE97jTYVUxBVjqDwyCW5KXUNpEwcUtG2uQtNRSbFO05mldc9YfAVIBRgfQaarZpwVqsMDI5Fsbrg+/sHPr54DzVxDY=
   - secure: aXuX7zc8Ejik5jzflTDOOAqgXg+Mpj4+N5F70R6Z0NM8ZoFGnP0cCQ5emR6OnDIoiiT1gE5QU65jrbXZbCXhFoLqLJNYECkuplDOIsNWD71rAvOHTD02PSZzIfo6kVjKvKKpvZ78VVhPt/aTLhSyR2w78RnCfRPRo6qq3UYfIKndwP/rtqU6hnwfhRzyq95V+ipY/vi/cwWGcc8H9m3POKq90HkThcLP96BeuOcuhG5os25EUBkAlX4RO0jI+W2rgxk7k7HcnmeUqFpeRIl4euq8cXbbjYI5xw9bqskkdSQIN8pyKDeVQPIvKNc0g6wvm0jf2vts7pWEEgXcfnv72dLjmyo9X1//OW7xeXF7zD6gwDVxuGM9hixfW4vkEQDgR1s9g+mAxskmRHSE9pi/XoVoUoCZQiGOUOrCZ0xaCCgKJEW/AC11bdCbnoAoyjd0I8jQ1Zy67SPdW7ysvOiJIuLsGO9wgtcYe4vnKC+nCiUlDkmJdTzFvQwapwDjFTx5k/N+q6MwcTSgjDUDj0pU/1Tgsdh4EWrzsiuZxldFpuryXF9KGvzBasw4BnqqjcCiDaTmTa9+hPiCLHQrGHmI+H5N60/t61mBnRnWRNv4QZzlPaBvZHr3qbOUG31D1za43abfzKU2xBWyPspAlqsMXRa7O8ZuJYe6GRe2U/zznAs=
