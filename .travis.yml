@@ -17,7 +17,8 @@ cache:
 before_install:
 - JAVA_HOME=$(jdk_switcher home openjdk8) ./gradlew classes testClasses
 after_success:
-- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry ./gradlew publish'
+- JAVA_HOME=$(jdk_switcher home openjdk8) ./gradlew assemble
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && travis_retry ./gradlew clean publish'
 env:
   matrix:
   - secure: DNagnBBEf+x/lOfDh5B4kA+aSCbvmHZqbLkKXQ9HRDvj/DiIjnXk4xTDBqQeXw6PNp8vlJr/KNIW7q1e5avR43nAQt6VE/Ss7YiMf+wT9wZWlJP99Tg8aQKyxTmD6wkUgoco8y83ccTC6cHV5zizF1pDSNLnq0Mz4vTEKA0uNSMRDiyG4MpuX5rCPCE9zGtBCLWorYuBaUNZ93zBbe6Ae2PEx0vazB9iF/WnK7QnmqLYdRILu/fU2OEMk0PoevisHHl/vutUwQuTYIP3HLQjBKmRvGkGsU2pr0deB2eWTvyNQoyn4PJZsb3/tyEMi4CDJmnDmE+E93VQXO+f8jV6fdbj1jsPjNbsvo35ofAw6n+tO4kTtU1TtHrqeuzeg0XN0mBduhHgFUwGvSHUL2ta2Yt9dQiNCGU9Xu6HQ9sYDucLtNJSbCVK/OhQTvtoXkNSoo+g60a/qp+QzmNcZ/q9NvRVZuM2/pawR0V0XzUe62g00T8lUKDMWTu3PFxGh8QVDOTPaZ1Lc0AMVZUb4/gX+/iAipP63q2/klI33U1nMSEx8awXYuMQxNa+HgoC5ZRkC2iNf8tG04q50h1EfHE97jTYVUxBVjqDwyCW5KXUNpEwcUtG2uQtNRSbFO05mldc9YfAVIBRgfQaarZpwVqsMDI5Fsbrg+/sHPr54DzVxDY=
