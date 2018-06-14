@@ -53,6 +53,16 @@ spring.session.grails:
    - 'another-session-scoped-variable'
 ```
 
+### Grails `withForm`
+
+Grails stores the `withForm` tokens in a mutable session variable, so you should add `SYNCHRONIZER_TOKENS_HOLDER` to your `mutable-attributes` list if using the `withForm` controller method, like so:
+
+```yaml
+spring.session.grails.mutable-attributes:
+ - SYNCHRONIZER_TOKENS_HOLDER
+ - etc
+```
+
 ### Mutable Session Variables
 
 ***NOTE*** It's generally a bug to mutate the variable stored in the session, eg:
@@ -80,6 +90,23 @@ Most Spring Session backing store implementations will need to serialise the obj
 its imperative that all objects we're storing are supported by the serialisation method employed by the backing store.  For the Redis store
 the storage method is, by default, JDK serialisation, so all objects put into the session need to implement `java.io.Serializable`.  Other 
 serialisations may be possible, eg JSON via Jackson.
+
+### AWS Elasticache notes
+
+AWS Elasticache prevents the use of CONFIG commands via the redis protocol.  To make Spring Session Redis work with elasticache,
+configure a `@Bean` in your `Application` like so:
+
+```groovy
+    @ConditionalOnProperty('spring.session.disable-redis-config-action')
+    @Bean
+    ConfigureRedisAction configureRedisAction() {
+        ConfigureRedisAction.NO_OP
+    }
+```
+
+Then you can enable / disable the No-op `ConfigureRedisAction` with `spring.session.disable-redis-config-action` property.
+
+You also need to configure your Elasticache instance manually, see [here](https://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent) and [here](https://github.com/spring-projects/spring-session/issues/124#issuecomment-71525940) for more details.
 
 ### Implementation notes
 
