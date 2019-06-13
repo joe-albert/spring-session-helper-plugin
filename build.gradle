@@ -58,6 +58,8 @@ dependencies {
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile 'com.goldmansachs:gs-collections:5.1.0'
 }
 
 compileGroovy {

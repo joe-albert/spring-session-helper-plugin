@@ -37,21 +37,23 @@ public class MutableSessionStateSynchronizingFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         boolean flashScopeEmpty = true;
         boolean flashScopeNull = false;
-        Set<String> preEmptyAttributes = Collections.emptySet();
+        final Set<String> preEmptyAttributes;
         pre: {
             HttpSession session = request.getSession(false);
 
-            if (session == null) break pre;
-
-            if (syncFlashScope) {
-                FlashScope flashScope = getFlashScope(session);
-                if (flashScope != null) {
-                    flashScopeEmpty = flashScope.isEmpty();
-                } else {
-                    flashScopeNull = true;
+            if (session != null) {
+                if (syncFlashScope) {
+                    FlashScope flashScope = getFlashScope(session);
+                    if (flashScope != null) {
+                        flashScopeEmpty = flashScope.isEmpty();
+                    } else {
+                        flashScopeNull = true;
+                    }
                 }
+                preEmptyAttributes = getEmptyAttributes(session);
+            } else {
+                preEmptyAttributes = Collections.emptySet();
             }
-            preEmptyAttributes = getEmptyAttributes(session);
         }
         filterChain.doFilter(request, response);
 
