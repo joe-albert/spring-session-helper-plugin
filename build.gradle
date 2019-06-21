@@ -20,7 +20,7 @@ apply plugin:"idea"
 apply plugin:"org.grails.grails-plugin"
 apply plugin:"org.grails.grails-plugin-publish"
 
-version "1.1-SNAPSHOT"
+version "1.1"
 group "org.grails.plugins"
 
 repositories {
