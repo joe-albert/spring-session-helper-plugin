@@ -32,7 +32,7 @@ If no Spring Session store is configured, then this plugin also does nothing at 
 To enable Spring Session, first set:
 
 ```yaml
-spring.session.enabled: false
+spring.session.enabled: false # Make this the default in application.yml and then override in external config to enable for production
 spring.session.store-type: 'mongodb'
 ```
 
