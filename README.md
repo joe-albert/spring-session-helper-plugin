@@ -7,13 +7,13 @@ HA configuration (eg for Redis by using AWS elasticache)
 
 ## Using this plugin
 
-Add the plugin to your gradle dependencies, along with the Spring Boot and Spring Session implementation to use, eg for Redis support use:
+Add the plugin to your gradle dependencies, along with the Spring Session implementation to use and the matching Spring Boot Data Starter, eg for Redis support use:
 
 ```gradle
 dependencies {
   compile 'org.grails.plugins:spring-session-helper:x.y'
-  compile 'org.springframework.boot:spring-boot-starter-data-redis'
-  compile 'org.springframework.session:spring-session-helper:spring-session-data-redis'
+  compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+  compile 'org.springframework.session:spring-session-helper:spring-session-data-mongodb'
 }
 ```
 
@@ -21,26 +21,30 @@ Theoretically this plugin will work with any Spring Session implementation.
 
 ### Config setup
 
-By default the spring session filter is disabled after adding this plugin via setting `spring.session.store-type: 'none'`.
-Therefore this plugin and the associated Spring Session dependencies may be included without compromising the ability to 
-run with Tomcat's regular in-memory session store.
+By default the spring session filter is disabled after adding this plugin via setting `spring.session.enabled: false`
+and `spring.session.store-type: 'none'`.  The config property `spring.session.enabled` is only used by
+this plugin and potentially by your own app, it's not a official Spring Session property.
+By setting these two properties thus, this plugin and the associated Spring Session dependencies may be included without
+compromising the ability to run with Tomcat's regular in-memory session store for development.
 
 If no Spring Session store is configured, then this plugin also does nothing at runtime.
 
 To enable Spring Session, first set:
 
 ```yaml
-spring.session.store-type: 'redis'
+spring.session.enabled: false # Make this the default in application.yml and then override in external config to enable for production
+spring.session.store-type: 'mongodb'
 ```
 
-Then setup the Spring Session store layer, eg by default the Redis session store will use the default Spring Redis connection factory, eg:
+Then setup the Spring Session store data repository, eg by default the MongoDB session store will use the default Spring Data Mongo client, eg:
 
 ```yaml
 spring:
-  redis:
-    host: 'cluster-hostname'
-    password: 'password'
-    port: 'cluster port'
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: sessions
 ```
 
 Finally, you can adjust the config for this plugin:
@@ -90,6 +94,31 @@ Most Spring Session backing store implementations will need to serialise the obj
 its imperative that all objects we're storing are supported by the serialisation method employed by the backing store.  For the Redis store
 the storage method is, by default, JDK serialisation, so all objects put into the session need to implement `java.io.Serializable`.  Other 
 serialisations may be possible, eg JSON via Jackson.
+
+### MongoDB sesssion repo notes
+
+MongoDBs AutoConfiguration and the MongoHttpSession need to be enabled via
+Java annotations on a Spring Boot config class.  It also requires a session serialiser to be defined.
+A simple way of doing so that ensures no additional beans are created in a dev environment is to define the follow static class in your Grails init `Application.groovy`:
+
+```groovy
+    @Configuration
+    @ConditionalOnProperty(value = "spring.session.enabled", havingValue = "true)
+    @Import(MongoAutoConfiguration) // unsure if this is disabled by grails?
+    @EnableMongoHttpSession
+    @EnableConfigurationProperties(MongoProperties)
+    static class MongoSessionConfig {
+    
+        @Bean
+        JdkMongoSessionConverter jdkMongoSessionConverter() {
+            return new JdkMongoSessionConverter(Duration.ofMinutes(15L));
+        }
+    }
+```
+
+### Hazelcast notes
+
+This section to be completed
 
 ### AWS Elasticache notes
 
