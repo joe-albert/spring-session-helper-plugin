@@ -116,6 +116,10 @@ A simple way of doing so that ensures no additional beans are created in a dev e
     }
 ```
 
+If used in conjunction with the ALA Auth Plugin, the `JDKMongoSessionConverter` can be elided as the 
+auth plugin provides a Converter that works with the PAC4j profile manager to extract principal name and external session
+id information.
+
 ### Hazelcast notes
 
 This section to be completed

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+ grails.plugin.spring.session.helper.configuration.SpringSessionHelperConfiguration

@@ -42,14 +42,7 @@ mutable session scope variables.
 //    def scm = [ url: "http://svn.codehaus.org/grails-plugins/" ]
 
     Closure doWithSpring() { {->
-            xmlns context:"http://www.springframework.org/schema/context"
-
-
-            context.'component-scan'('base-package': 'grails.plugin.spring.session.helper.configuration') {
-                context.'include-filter'(
-                        type:       'annotation',
-                        expression: Configuration.canonicalName)
-            }
+        // SpringSessionHelperConfiguration loaded via spring.factories
         }
     }
 
