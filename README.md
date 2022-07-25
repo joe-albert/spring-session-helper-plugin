@@ -103,15 +103,20 @@ A simple way of doing so that ensures no additional beans are created in a dev e
 
 ```groovy
     @Configuration
-    @ConditionalOnProperty(value = "spring.session.enabled", havingValue = "true)
+    @ConditionalOnProperty(prefix = "spring.session", name="enabled")
     @Import(MongoAutoConfiguration) // unsure if this is disabled by grails?
     @EnableMongoHttpSession
-    @EnableConfigurationProperties(MongoProperties)
+    @EnableConfigurationProperties([SessionProperties, ServerProperties])
     static class MongoSessionConfig {
+        @Autowired
+        SessionProperties sessionProperties
+
+        @Autowired
+        ServerProperties serverProperties
     
         @Bean
         JdkMongoSessionConverter jdkMongoSessionConverter() {
-            return new JdkMongoSessionConverter(Duration.ofMinutes(15L));
+            return new JdkMongoSessionConverter(sessionProperties.timeout ?: serverProperties.servlet.session.timeout);
         }
     }
 ```
