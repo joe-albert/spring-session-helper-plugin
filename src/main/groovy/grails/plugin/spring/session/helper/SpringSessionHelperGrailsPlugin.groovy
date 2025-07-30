@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 class SpringSessionHelperGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "4.0.13 > *"
+    def grailsVersion = "5.2.5 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
     ]
