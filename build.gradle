@@ -3,27 +3,19 @@ buildscript {
         mavenLocal()
         maven { url "https://nexus.ala.org.au/content/groups/public/" }
         maven { url "https://repo.grails.org/grails/core" }
-        //        maven { url 'http://repo.spring.io/plugins-release' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        //        classpath 'io.spring.gradle:propdeps-plugin:0.0.9.RELEASE'
-//        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.0.10"
     }
-}
-
-plugins {
-    id "net.ltgt.apt" version "0.21"
 }
 
 apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"org.grails.grails-plugin"
-//apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
 apply plugin: 'maven-publish'
 
-version "2.1.0-SNAPSHOT"
+version appVersion
 group "org.grails.plugins"
 
 repositories {
@@ -52,40 +44,38 @@ dependencyManagement {
 
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    compile "org.springframework.boot:spring-boot-starter-logging"
-    compile "org.springframework.boot:spring-boot-autoconfigure"
-    compile "org.grails:grails-core"
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
-    compile "org.grails:grails-web-boot"
-    compile "org.grails:grails-logging"
-    compile "org.grails:grails-plugin-rest"
-    compile "org.grails:grails-plugin-databinding"
-    compile "org.grails:grails-plugin-i18n"
-    compile "org.grails:grails-plugin-services"
-    compile "org.grails:grails-plugin-url-mappings"
-    compile "org.grails:grails-plugin-interceptors"
-    compile "org.grails.plugins:cache"
-    compile "org.grails.plugins:async"
-    compile "org.grails.plugins:scaffolding"
-    compile "org.grails.plugins:gsp"
     compileOnly "io.micronaut:micronaut-inject-groovy"
     console "org.grails:grails-console"
+    implementation "org.springframework.boot:spring-boot-starter-logging"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.grails:grails-core"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-tomcat"
+    implementation "org.grails:grails-web-boot"
+    implementation "org.grails:grails-logging"
+    implementation "org.grails:grails-plugin-rest"
+    implementation "org.grails:grails-plugin-databinding"
+    implementation "org.grails:grails-plugin-i18n"
+    implementation "org.grails:grails-plugin-services"
+    implementation "org.grails:grails-plugin-url-mappings"
+    implementation "org.grails:grails-plugin-interceptors"
+    implementation "org.grails.plugins:cache"
+    implementation "org.grails.plugins:async"
+    implementation "org.grails.plugins:scaffolding"
+    implementation "org.grails.plugins:gsp"
     profile "org.grails.profiles:web-plugin"
-//    runtime "com.bertramlabs.plugins:asset-pipeline-grails:3.0.10"
-    testCompile "io.micronaut:micronaut-inject-groovy"
-    testCompile "org.grails:grails-gorm-testing-support"
-    testCompile "org.mockito:mockito-core"
-    testCompile "org.grails:grails-web-testing-support"
 
-//    compile 'org.springframework.boot:spring-boot-starter-data-redis'
-//    compile 'org.springframework.session:spring-session-data-redis'
-    compile 'org.springframework.session:spring-session-core:2.1.13.RELEASE'
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "org.grails:grails-gorm-testing-support"
+    testImplementation "org.mockito:mockito-core"
+    testImplementation "org.grails:grails-web-testing-support"
+
+    implementation 'org.springframework.session:spring-session-core:2.7.0'
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
 
-    compile 'com.goldmansachs:gs-collections:5.1.0'
+    implementation 'com.goldmansachs:gs-collections:5.1.0'
 }
 
 compileGroovy {
